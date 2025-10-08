@@ -17,17 +17,49 @@ namespace Employee.Backend.Controllers
         }
 
         [HttpGet]
-
         public async Task<IActionResult> GetAsync()
         {
             return Ok(await _context.Employees.ToListAsync());
         }
 
-        [HttpPost]
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> GetAsync(int id)
+        {
+            var employee = await _context.Employees.FirstOrDefaultAsync(c => c.Id == id);
+            if (employee == null)
+            {
+                return NotFound();
+            }
 
-        public async Task<IActionResult> PostAsync(EmployeeBD employee) 
+            return Ok(employee);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> PostAsync(EmployeeBD employee)
         {
             _context.Employees.Add(employee);
+            await _context.SaveChangesAsync();
+            return Ok(employee);
+        }
+
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> DeleteAsync(int id)
+        {
+            var employee = await _context.Employees.FirstOrDefaultAsync(c => c.Id == id);
+            if (employee == null)
+            {
+                return NotFound();
+            }
+
+            _context.Remove(employee);
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> PutAsync(EmployeeBD employee)
+        {
+            _context.Employees.Update(employee);
             await _context.SaveChangesAsync();
             return Ok(employee);
         }
