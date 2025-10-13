@@ -6,62 +6,59 @@ using Microsoft.EntityFrameworkCore;
 namespace Employee.Backend.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
-    public class EmployeesController : ControllerBase
+    [Route("api/[Controller]")]
+    public class EmployeesController : GenericController<EmployeeBD>
     {
-        private readonly DataContext _context;
+        private readonly IEmployeesUnitOfWork _employeesUnitOfWork;
 
-        public EmployeesController(DataContext context)
+        public EmployeesController(IGenericUnitOfWork<Employee> unitOfWork, IEmployeesUnitOfWork employeesUnitOfWork) : base(unitOfWork)
         {
-            _context = context;
+            _employeesUnitOfWork = employeesUnitOfWork;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAsync()
+        public override async Task<IActionResult> GetAsync()
         {
-            return Ok(await _context.Employees.ToListAsync());
-        }
-
-        [HttpGet("{id:int}")]
-        public async Task<IActionResult> GetAsync(int id)
-        {
-            var employee = await _context.Employees.FirstOrDefaultAsync(c => c.Id == id);
-            if (employee == null)
+            var action = await _employeesUnitOfWork.GetAsync();
+            if (action.WasSuccess)
             {
-                return NotFound();
+                return Ok(action.Result);
             }
-
-            return Ok(employee);
+            return BadRequest();
         }
 
-        [HttpPost]
-        public async Task<IActionResult> PostAsync(EmployeeBD employee)
+        //Este metodo me filtra por nombre o apellido
+        [HttpGet("{filtro}")]
+        public override async Task<IActionResult> GetAsync(string filtro)
         {
-            _context.Employees.Add(employee);
-            await _context.SaveChangesAsync();
-            return Ok(employee);
-        }
-
-        [HttpDelete("{id:int}")]
-        public async Task<IActionResult> DeleteAsync(int id)
-        {
-            var employee = await _context.Employees.FirstOrDefaultAsync(c => c.Id == id);
-            if (employee == null)
+            var action = await _employeesUnitOfWork.GetAsync(filtro);
+            if (action.WasSuccess)
             {
-                return NotFound();
+                return Ok(action.Result);
             }
-
-            _context.Remove(employee);
-            await _context.SaveChangesAsync();
-            return NoContent();
+            return NotFound();
         }
 
-        [HttpPut]
-        public async Task<IActionResult> PutAsync(EmployeeBD employee)
+        [HttpGet("paginated")]
+        public override async Task<IActionResult> GetAsync(PaginationDTO pagination)
         {
-            _context.Employees.Update(employee);
-            await _context.SaveChangesAsync();
-            return Ok(employee);
+            var response = await _employeesUnitOfWork.GetAsync(pagination);
+            if (response.WasSuccess)
+            {
+                return Ok(response.Result);
+            }
+            return BadRequest();
+        }
+
+        [HttpGet("totalRecords")]
+        public override async Task<IActionResult> GetTotalRecordsAsync([FromQuery] PaginationDTO pagination)
+        {
+            var action = await _employeesUnitOfWork.GetTotalRecordsAsync(pagination);
+            if (action.WasSuccess)
+            {
+                return Ok(action.Result);
+            }
+            return BadRequest();
         }
     }
 }

@@ -9,12 +9,12 @@ namespace Employee.Backend.Data
         {
         }
 
-        public DbSet<EmployeeBD> Employees => Set<EmployeeBD>();
+        public DbSet<EmployeeBD> Employees { get; set; }
 
+        // Para crear index y evitar repeticiones de nombres de los tipos de categorias
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<EmployeeBD>().HasIndex(c => c.Id).IsUnique();
         }
     }
 }
