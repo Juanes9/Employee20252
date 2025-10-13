@@ -2,13 +2,13 @@
 using Employee.shared.Entities;
 using Employee.shared.Responses;
 
-namespace Employee.Backend.Repositories.Interfaces
+namespace Employee.Backend.UnitsOfWork.Interfaces
 {
-    public interface IEmpleadosUnitOfWork
+    public interface IEmployeesUnitOfWork
     {
         Task<ActionResponse<IEnumerable<EmployeeBD>>> GetAsync();
 
-        Task<ActionResponse<IEnumerable<EmployeeBD>>> GetAsync(string filtro);
+        Task<ActionResponse<IEnumerable<EmployeeBD>>> GetAsync(string filter);
 
         Task<ActionResponse<IEnumerable<EmployeeBD>>> GetAsync(PaginationDTO pagination);
 

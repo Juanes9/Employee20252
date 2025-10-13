@@ -1,5 +1,7 @@
 ﻿using Employee.Backend.Data;
 using Employee.shared.Entities;
+using Employee.shared.DTOs;
+using Employee.Backend.UnitsOfWork.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,7 +13,7 @@ namespace Employee.Backend.Controllers
     {
         private readonly IEmployeesUnitOfWork _employeesUnitOfWork;
 
-        public EmployeesController(IGenericUnitOfWork<Employee> unitOfWork, IEmployeesUnitOfWork employeesUnitOfWork) : base(unitOfWork)
+        public EmployeesController(IGenericUnitOfWork<EmployeeBD> unitOfWork, IEmployeesUnitOfWork employeesUnitOfWork) : base(unitOfWork)
         {
             _employeesUnitOfWork = employeesUnitOfWork;
         }

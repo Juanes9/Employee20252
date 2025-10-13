@@ -17,7 +17,7 @@ namespace Employee.Backend.UnitsOfWork.Implementations
 
         public override async Task<ActionResponse<IEnumerable<EmployeeBD>>> GetAsync() => await _employeesRepository.GetAsync();
 
-        public override async Task<ActionResponse<IEnumerable<EmployeeBD>>> GetAsync(string filtro) => await _employeesRepository.GetAsync(filtro);
+        public override async Task<ActionResponse<IEnumerable<EmployeeBD>>> GetAsync(string filter) => await _employeesRepository.GetAsync(filter);
 
         public override async Task<ActionResponse<IEnumerable<EmployeeBD>>> GetAsync(PaginationDTO pagination) => await _employeesRepository.GetAsync(pagination);
 

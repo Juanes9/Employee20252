@@ -11,17 +11,20 @@ namespace Employee.shared.Entities
     {
         public int Id { get; set; }
 
-        [Required, MaxLength(30)]
+        [MaxLength(30, ErrorMessage = "El campo {0} no debe tener mas de {1} caracteres")]
+        [Required(ErrorMessage = "El campo {0} es obligatorio")]
         public string FirstName { get; set; } = null!;
 
-        [Required, MaxLength(30)]
+        [MaxLength(30, ErrorMessage = "El campo {0} no debe tener mas de {1} caracteres")]
+        [Required(ErrorMessage = "El campo {0} es obligatorio")]
         public string LastName { get; set; } = null!;
 
         public bool IsActive { get; set; }
 
-        public DateTime HireDate { get; set; }
+        public DateTime? HireDate { get; set; }
 
-        [Required, Range(1000000, double.MaxValue, ErrorMessage = "Salary must be at least 1,000,000.")]
+        [Range(1000000, double.MaxValue, ErrorMessage = "El valor minimo del campo {0} es de {1}")]
+        [Required(ErrorMessage = "El campo {0} es obligatorio")]
         public decimal Salary { get; set; }
     }
 }

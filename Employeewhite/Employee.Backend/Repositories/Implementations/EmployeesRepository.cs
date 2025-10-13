@@ -1,6 +1,10 @@
 ﻿using Employee.Backend.Data;
+using Employee.Backend.Helpers;
+using Employee.Backend.Repositories.Interfaces;
 using Employee.shared.DTOs;
+using Employee.shared.Entities;
 using Employee.shared.Responses;
+using Microsoft.EntityFrameworkCore;
 
 namespace Employee.Backend.Repositories.Implementations
 {
@@ -13,41 +17,41 @@ namespace Employee.Backend.Repositories.Implementations
             _context = context;
         }
 
-        public override async Task<ActionResponse<IEnumerable<Empleado>>> GetAsync()
+        public override async Task<ActionResponse<IEnumerable<EmployeeBD>>> GetAsync()
         {
-            var empleados = await _context.Empleados.ToListAsync();
-            return new ActionResponse<IEnumerable<Empleado>>
+            var employees = await _context.Employees.ToListAsync();
+            return new ActionResponse<IEnumerable<EmployeeBD>>
             {
                 WasSuccess = true,
-                Result = empleados
+                Result = employees
             };
         }
 
-        public override async Task<ActionResponse<IEnumerable<Empleado>>> GetAsync(string filtro)
+        public override async Task<ActionResponse<IEnumerable<EmployeeBD>>> GetAsync(string filter)
         {
-            filtro = filtro.ToLower();
-            var empleados = await _context.Empleados
-                .Where(e => e.FirstName.ToLower().Contains(filtro) || e.LastName.ToLower().Contains(filtro))
+            filter = filter.ToLower();
+            var employees = await _context.Employees
+                .Where(e => e.FirstName.ToLower().Contains(filter) || e.LastName.ToLower().Contains(filter))
                 .ToListAsync();
 
-            if (empleados == null)
+            if (employees == null)
             {
-                return new ActionResponse<IEnumerable<Empleado>>
+                return new ActionResponse<IEnumerable<EmployeeBD>>
                 {
                     Message = "No se encontraron empleados que coincidan con esos caracteres"
                 };
             }
 
-            return new ActionResponse<IEnumerable<Empleado>>
+            return new ActionResponse<IEnumerable<EmployeeBD>>
             {
                 WasSuccess = true,
-                Result = empleados
+                Result = employees
             };
         }
 
-        public override async Task<ActionResponse<IEnumerable<Empleado>>> GetAsync(PaginationDTO pagination)
+        public override async Task<ActionResponse<IEnumerable<EmployeeBD>>> GetAsync(PaginationDTO pagination)
         {
-            var queryable = _context.Empleados.AsQueryable();
+            var queryable = _context.Employees.AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(pagination.Filter))
             {
@@ -55,7 +59,7 @@ namespace Employee.Backend.Repositories.Implementations
                 e.LastName.ToLower().Contains(pagination.Filter));
             }
 
-            return new ActionResponse<IEnumerable<Empleado>>
+            return new ActionResponse<IEnumerable<EmployeeBD>>
             {
                 WasSuccess = true,
                 Result = await queryable
@@ -68,7 +72,7 @@ namespace Employee.Backend.Repositories.Implementations
 
         public override async Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination)
         {
-            var queryable = _context.Empleados.AsQueryable();
+            var queryable = _context.Employees.AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(pagination.Filter))
             {

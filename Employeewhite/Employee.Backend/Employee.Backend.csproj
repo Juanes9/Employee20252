@@ -20,8 +20,4 @@
     <ProjectReference Include="..\Employee.shared\Employee.shared.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="UnitsOfWork\Interfaces\" />
-  </ItemGroup>
-
 </Project>
