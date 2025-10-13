@@ -15,7 +15,7 @@ public partial class EmployeesIndex
     private readonly int[] pageSizeOptions = { 10, 25, 50, int.MaxValue };
     private int totalRecords = 0;
     private bool loading;
-    private const string baseUrl = "api/Empleados";
+    private const string baseUrl = "api/Employees";
     private string infoFormat = "{first_item}-{last_item} => {all_items}";
 
     [Inject] private IRepository Repository { get; set; } = null!;
