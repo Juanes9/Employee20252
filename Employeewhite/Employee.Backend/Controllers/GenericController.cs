@@ -36,7 +36,7 @@ namespace Employee.Backend.Controllers
         }
 
         //Este metodo me filtra por nombre o apellido
-        [HttpGet("{filtro}")]
+        [HttpGet("{filter}")]
         public virtual async Task<IActionResult> GetAsync(string filtro)
         {
             var action = await _unitOfWork.GetAsync(filtro);

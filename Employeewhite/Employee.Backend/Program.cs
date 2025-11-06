@@ -4,12 +4,13 @@ using Employee.Backend.Repositories.Interfaces;
 using Employee.Backend.UnitsOfWork.Implementations;
 using Employee.Backend.UnitsOfWork.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -22,7 +23,12 @@ builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepositor
 
 builder.Services.AddScoped<IEmployeesUnitOfWork, EmployeesUnitOfWork>();
 builder.Services.AddScoped<IEmployeesRepository, EmployeesRepository>();
-
+builder.Services.AddScoped<ICountryUnitOfWork, CountryUnitOfWork>();
+builder.Services.AddScoped<ICountryRepository, CountryRepository>();
+builder.Services.AddScoped<IStateUnitOfWork, StateUnitOfWork>();
+builder.Services.AddScoped<IStateRepository, StateRepository>();
+builder.Services.AddScoped<ICityUnitOfWork, CityUnitOfWork>();
+builder.Services.AddScoped<ICityRepository, CityRepository>();
 var app = builder.Build();
 
 seedData(app);
