@@ -1,13 +1,16 @@
 ﻿using Employee.Backend.Data;
-using Employee.shared.Entities;
-using Employee.shared.DTOs;
 using Employee.Backend.UnitsOfWork.Interfaces;
+using Employee.shared.DTOs;
+using Employee.shared.Entities;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Employee.Backend.Controllers
 {
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[Controller]")]
     public class EmployeesController : GenericController<EmployeeBD>
     {

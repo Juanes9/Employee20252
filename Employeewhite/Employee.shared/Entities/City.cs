@@ -21,6 +21,6 @@ namespace Employee.shared.Entities
 
         public State? State { get; set; }
 
-        //public ICollection<User>? User { get; set; }
+        public ICollection<User>? User { get; set; }
     }
 }
