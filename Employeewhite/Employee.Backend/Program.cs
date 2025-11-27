@@ -1,4 +1,5 @@
 using Employee.Backend.Data;
+using Employee.Backend.Helpers;
 using Employee.Backend.Repositories.Implementations;
 using Employee.Backend.Repositories.Interfaces;
 using Employee.Backend.UnitsOfWork.Implementations;
@@ -47,6 +48,7 @@ builder.Services.AddScoped<ICityUnitOfWork, CityUnitOfWork>();
 builder.Services.AddScoped<ICityRepository, CityRepository>();
 builder.Services.AddScoped<IUsersRepository, UsersRepository>();
 builder.Services.AddScoped<IUsersUnitOfWork, UsersUnitOfWork>();
+builder.Services.AddScoped<IFileStorage, FileStorage>();
 
 builder.Services.AddIdentity<User, IdentityRole>(x =>
 {

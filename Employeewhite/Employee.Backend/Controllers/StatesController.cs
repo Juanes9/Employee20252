@@ -1,6 +1,8 @@
-﻿using Employee.Backend.UnitsOfWork.Interfaces;
+﻿using Employee.Backend.UnitsOfWork.Implementations;
+using Employee.Backend.UnitsOfWork.Interfaces;
 using Employee.shared.DTOs;
 using Employee.shared.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Employee.Backend.Controllers
@@ -69,6 +71,13 @@ namespace Employee.Backend.Controllers
                 return Ok(action.Result);
             }
             return BadRequest();
+        }
+
+        [AllowAnonymous]
+        [HttpGet("combo/{countryId:int}")]
+        public async Task<IActionResult> GetComboAsync(int countryId)
+        {
+            return Ok(await _stateUnitOfWork.GetComboAsync(countryId));
         }
     }
 }

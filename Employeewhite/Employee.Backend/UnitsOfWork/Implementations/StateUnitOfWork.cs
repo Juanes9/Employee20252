@@ -1,4 +1,5 @@
-﻿using Employee.Backend.Repositories.Interfaces;
+﻿using Employee.Backend.Repositories.Implementations;
+using Employee.Backend.Repositories.Interfaces;
 using Employee.Backend.UnitsOfWork.Interfaces;
 using Employee.shared.DTOs;
 using Employee.shared.Entities;
@@ -24,5 +25,6 @@ namespace Employee.Backend.UnitsOfWork.Implementations
         public override async Task<ActionResponse<IEnumerable<State>>> GetAsync(PaginationDTO pagination) => await _stateRepository.GetAsync(pagination);
 
         public override async Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination) => await _stateRepository.GetTotalRecordsAsync(pagination);
+        public async Task<IEnumerable<State>> GetComboAsync(int countryId) => await _stateRepository.GetComboAsync(countryId);
     }
 }

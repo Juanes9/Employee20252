@@ -102,5 +102,12 @@ namespace Employee.Backend.Repositories.Implementations
                 Result = (int)count
             };
         }
+
+        public async Task<IEnumerable<Country>> GetComboAsync()
+        {
+            return await _context.Countries
+                .OrderBy(c => c.Name)
+                .ToListAsync();
+        }
     }
 }
