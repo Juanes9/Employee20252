@@ -1,6 +1,7 @@
 using Employee.Frontend.AuthenticationProviders;
 using Employee.Frontend.Components;
 using Employee.Frontend.Repositories;
+using Employee.Frontend.Services;
 using Microsoft.AspNetCore.Components.Authorization;
 using MudBlazor.Services;
 
@@ -13,8 +14,15 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddSingleton(_ => new HttpClient { BaseAddress = new Uri("http://localhost:5246") }); //5246
 builder.Services.AddAuthorizationCore();
-builder.Services.AddScoped<AuthenticationStateProvider, AuthenticationProviderTest>();
+//se elimino el AuthenticationProviderTest
 builder.Services.AddScoped<IRepository, Repository>();
+
+builder.Services.AddAuthorizationCore();
+
+builder.Services.AddScoped<AuthenticationProviderJWT>();
+builder.Services.AddScoped<AuthenticationStateProvider, AuthenticationProviderJWT>(x => x.GetRequiredService<AuthenticationProviderJWT>());
+builder.Services.AddScoped<ILoginService, AuthenticationProviderJWT>(x => x.GetRequiredService<AuthenticationProviderJWT>());
+
 
 var app = builder.Build();
 
