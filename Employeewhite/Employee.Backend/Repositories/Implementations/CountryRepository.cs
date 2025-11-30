@@ -30,7 +30,7 @@ namespace Employee.Backend.Repositories.Implementations
             };
         }
 
-        public override async Task<ActionResponse<Country>> GetAsync(int id)
+        /*public override async Task<ActionResponse<Country>> GetAsync(int id)
         {
             var contries = await _context.Countries
                 .AsNoTracking()
@@ -41,6 +41,26 @@ namespace Employee.Backend.Repositories.Implementations
             {
                 WasSuccess = true,
                 Result = contries
+            };
+        }*/
+
+        public override async Task<ActionResponse<Country>> GetAsync(int id)
+        {
+            var country = await _context.Countries
+                .Include(x => x.State!)
+                .ThenInclude(x => x.City)
+                .FirstOrDefaultAsync(x => x.Id == id);
+            if (country == null)
+            {
+                return new ActionResponse<Country>
+                {
+                    Message = "Registro no encontrado"
+                };
+            }
+            return new ActionResponse<Country>
+            {
+                WasSuccess = true,
+                Result = country
             };
         }
 
