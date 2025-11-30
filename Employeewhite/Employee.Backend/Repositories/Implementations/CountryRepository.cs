@@ -30,7 +30,7 @@ namespace Employee.Backend.Repositories.Implementations
             };
         }
 
-        /*public override async Task<ActionResponse<Country>> GetAsync(int id)
+        public override async Task<ActionResponse<Country>> GetAsync(int id)
         {
             var contries = await _context.Countries
                 .AsNoTracking()
@@ -42,9 +42,9 @@ namespace Employee.Backend.Repositories.Implementations
                 WasSuccess = true,
                 Result = contries
             };
-        }*/
+        }
 
-        public override async Task<ActionResponse<Country>> GetAsync(int id)
+        /*public override async Task<ActionResponse<Country>> GetAsync(int id)
         {
             var country = await _context.Countries
                 .Include(x => x.State!)
@@ -62,7 +62,7 @@ namespace Employee.Backend.Repositories.Implementations
                 WasSuccess = true,
                 Result = country
             };
-        }
+        }*/
 
         public override async Task<ActionResponse<IEnumerable<Country>>> GetAsync(string filter)
         {
